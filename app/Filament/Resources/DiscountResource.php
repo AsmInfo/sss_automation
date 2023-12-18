@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ComponentsResource\Pages;
-use App\Filament\Resources\ComponentsResource\RelationManagers;
-use App\Models\Components;
+use App\Filament\Resources\DiscountResource\Pages;
+use App\Filament\Resources\DiscountResource\RelationManagers;
+use App\Models\Discount;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,28 +12,31 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\Card;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Set;
+use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\Filter;
+use Filament\Tables\Columns\BooleanColumn;
 
-class ComponentsResource extends Resource
+
+class DiscountResource extends Resource
 {
-    protected static ?string $model = Components::class;
+    protected static ?string $model = Discount::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-server-stack';
-    protected static ?string $navigationGroup = 'Component Management';
+    protected static ?string $navigationGroup = 'Product Management';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 4;
+
+    protected static ?string $navigationIcon = 'heroicon-o-receipt-percent';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 //
-                Card::make()->schema([TextInput::make('comp_name')->unique(),
-
+                Card::make()->schema([TextInput::make('discount_name')->label('Discount Name')->unique(),
+                    TextInput::make('discount_value')->label('Value')->required(),
+                    Toggle::make('is_active')->required(),
                 ])
             ]);
     }
@@ -44,8 +47,9 @@ class ComponentsResource extends Resource
             ->columns([
                 //
                 TextColumn::make('id')->sortable(),
-                TextColumn::make('comp_name')->limit(50)->sortable()->searchable(),
-                //
+                TextColumn::make('discount_name')->limit(50)->sortable()->searchable(),
+                TextColumn::make('discount_value')->limit(50),
+                BooleanColumn::make('is_active'),
             ])
             ->filters([
                 //
@@ -62,20 +66,20 @@ class ComponentsResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ]);
     }
-
+    
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-
+    
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListComponents::route('/'),
-            'create' => Pages\CreateComponents::route('/create'),
-            'edit' => Pages\EditComponents::route('/{record}/edit'),
+            'index' => Pages\ListDiscounts::route('/'),
+            'create' => Pages\CreateDiscount::route('/create'),
+            'edit' => Pages\EditDiscount::route('/{record}/edit'),
         ];
-    }
+    }    
 }
