@@ -10,4 +10,5 @@ class ProductComponent extends Pivot
 {
     use HasFactory;
     protected $table = 'products_components';
+    
 }

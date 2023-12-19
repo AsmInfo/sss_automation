@@ -16,6 +16,9 @@ use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\BelongsToSelect;
+use Filament\Pages\Page;
+use Hash;
 
 class UserResource extends Resource
 {
@@ -23,8 +26,8 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationGroup = 'Admin Management';
-    protected static ?int $navigationSort = 1;
+    protected static ?string $navigationGroup = 'User Management';
+    protected static ?int $navigationSort = 3;
  
     public static function form(Form $form): Form
     {
@@ -35,16 +38,28 @@ class UserResource extends Resource
                 ->minLength(2)
                 ->maxLength(255)
                 ->unique(ignoreRecord:true),
-            //     Select::make('permissions')
-            // ->multiple()
-            // ->relationship('permissions','name')
-            // ->preload()
-                
-                ]) 
+                Forms\Components\TextInput::make('email')
+                ->email()
+                ->required()
+                ->maxLength(255),
+                Forms\Components\TextInput::make('password')
+                ->password()
+                ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                ->dehydrated(fn ($state) => filled($state))
+                ->required(fn (Page $livewire) => ($livewire instanceof CreateUser))
+                ->maxLength(255),
+                // Forms\Components\DateTimePicker::make('email_verified_at'),
+                BelongsToSelect::make('role_id')->relationship('roles','name'),
+                Forms\Components\Select::make('permissions')
+                ->multiple()
+                ->relationship('permissions','name')
+                ->preload()
+                ])->columns(2),
+                // FileUpload::make('profile_images')->image()->resize(50)->imageEditor(),
+                            
+                //             ]) 
             ]);
-            return $form->schema([
-                Select::make('roles')->multiple()->relationship('roles', 'name')
-            ]);
+            
     }
 
     public static function table(Table $table): Table

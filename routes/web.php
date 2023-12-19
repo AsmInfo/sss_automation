@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\AutomationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 Route::get('/', function () {
-    return view('welcome');
+    return view('pages.home');
 });
+Route::get('/product/{slug}', [AutomationController::class, 'product_detail'])->name('detail');
+Route::get('/subcategory/{slug}', [AutomationController::class, 'subcategory'])->name('subcategory');
