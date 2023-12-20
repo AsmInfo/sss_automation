@@ -7,7 +7,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-
+use App\Models\Components;
 
 class Product extends Model implements HasMedia
 {
@@ -17,11 +17,9 @@ class Product extends Model implements HasMedia
 
     protected $fillable = ['category_id','subcategory_id','title', 'slug','description','price','offer_price','product_attachments','is_published'];
    
-
-
     public function components()
     {
-        return $this->belongsToMany(Components::class, 'products_components','product_id','components_id','formats_id')->withTimestamps();
+         return $this->belongsToMany(Components::class, 'products_components', 'product_id', 'components_id', 'formats_id')->withTimestamps();
     }
 
     public function ProductComponent(): HasMany
@@ -39,10 +37,10 @@ class Product extends Model implements HasMedia
         'product_attachments' => 'array',
     ];
 
-    public function products()
-    {
-        return $this->hasMany(Product::class);
-    }
+    // public function products()
+    // {
+    //     return $this->hasMany(Product::class);
+    // }
     public function category()
     {
         return $this->belongsTo(Category::class);

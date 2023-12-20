@@ -16,6 +16,7 @@ class Components extends Model
     // Define the relationship with products
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'products_components')->withTimestamps();
+        return $this->belongsToMany(Product::class, 'products_components', 'components_id', 'product_id', 'formats_id')
+            ->withTimestamps();
     }
 }

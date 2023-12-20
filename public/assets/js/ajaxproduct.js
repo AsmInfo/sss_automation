@@ -1,16 +1,16 @@
 document.querySelectorAll('.select-subcategory').forEach(function (element) {
     element.addEventListener('click', function () {
-     alert('hello');
+    //  alert('hello');
 
      var subcategoryId = element.getAttribute('data-subcategory-id');
-      console.log(subcategoryId);      
+    //   console.log(subcategoryId);      
      // Assuming you want to send some data to the server
      var requestData = {
          subcategoryId: subcategoryId,
-         _token: '{{ csrf_token() }}', // Add Laravel CSRF token
+         _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content'), // Add Laravel CSRF token
      };
 
-     fetch('/your-endpoint', {
+     fetch('/subcategory', {
          method: 'POST',
          headers: {
              'Content-Type': 'application/json',
@@ -19,13 +19,15 @@ document.querySelectorAll('.select-subcategory').forEach(function (element) {
      })
      .then(response => response.json())
      .then(data => {
-         // Handle the response data
-         console.log(data.message);
-         console.log(data.data);
+         // Replace the content of the #ajaxContent div with the new content
+         document.getElementById('ajaxContent').innerHTML = data.html;
+         console.log(data);
+        //  console.log(data.data);
      })
      .catch(error => {
          // Handle errors
          console.error('Error in AJAX request', error);
      });
+     
     });
 });

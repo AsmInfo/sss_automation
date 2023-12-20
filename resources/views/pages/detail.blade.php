@@ -24,9 +24,12 @@
           <div class="col-lg-8">
             <div class="portfolio-details-slider swiper">
               <div class="swiper-wrapper align-items-center">
+                
                 @foreach ($product->getMedia('products') as $image)
                 <div class="swiper-slide">
+                  @if($image)
                   <img src="{{$image->getUrl()}}" alt="">
+                  @endif
                 </div>
                 @endforeach
               </div>
@@ -46,28 +49,37 @@
             </div>
             <div class="portfolio-description">
               <h2>Description</h2>
+              
               <p>
                 {!! $product->description !!}
+                
               </p>
+              <div>
+                <h1>Components</h1>
+              @foreach ($product->components as $component)
+              {{$component->product->id}}
+              @endforeach
+              </div>
             </div>
           </div>
         </div>
         <div>
+          
         <table class="table table-bordered">
             <thead>
               <tr>
+
                 <th scope="col">Components</th>
                 <th scope="col">Formats</th>
               </tr>
             </thead> 
             <tbody>
-                @foreach ($components as $component)
+                @foreach ($product->components as $component)
                 {{$component}}
               <tr>
-                <th scope="row">1</th>
+                <th scope="row">{{ $index + 1 }}</th>
                 <td>{{$component->comp_name}}</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+                
               </tr>
               @endforeach
             </tbody>
