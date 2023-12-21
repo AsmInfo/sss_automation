@@ -5,8 +5,8 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
-use App\Models\Components;
-use App\Models\Formats;
+use App\Models\Component;
+use App\Models\Format;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -56,7 +56,7 @@ class ProductResource extends Resource
                     TextInput::make('title')->unique(ignorable: fn($record) => $record)->required(),
                     TextInput::make('slug')->unique(ignorable: fn($record) => $record)->required(),
                     SpatieMediaLibraryFileUpload::make('thumbnail')
-                        ->collection('products')
+                        ->collection('product')
                         ->multiple()
                         ->maxSize(1024)
                         ->required(),
@@ -74,14 +74,14 @@ class ProductResource extends Resource
                         ->relationship()
                         ->schema([
                             
-                            Select::make('components_id')
+                            Select::make('component_id')
                             ->label('Components')
-                            ->options(Components::all()->pluck('comp_name', 'id'))
+                            ->options(Component::all()->pluck('comp_name', 'id'))
                             ->required()
                             ->searchable(),
-                            Select::make('formats_id')
-                            ->label('Formats')
-                            ->options(Formats::all()->pluck('type', 'id'))
+                            Select::make('format_id')
+                            ->label('Format')
+                            ->options(Format::all()->pluck('type', 'id'))
                             ->required()
                             ->searchable(), 
                     
@@ -101,10 +101,10 @@ class ProductResource extends Resource
                 TextColumn::make('subcategory.name'),
                 TextColumn::make('title')->limit(50)->sortable()->searchable(),
                 SpatieMediaLibraryImageColumn::make('thumbnail')
-            ->collection('products'),
+            ->collection('product'),
             TextColumn::make('price')->limit(50)->sortable()->searchable(),
             TextColumn::make('offer_price')->limit(50)->sortable()->searchable(),
-            
+                
                 BooleanColumn::make('is_active'),
             ])
             ->filters([

@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ComponentsResource\Pages;
-use App\Filament\Resources\ComponentsResource\RelationManagers;
-use App\Models\Components;
+use App\Filament\Resources\ComponentResource\Pages;
+use App\Filament\Resources\ComponentResource\RelationManagers;
+use App\Models\Component;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -16,11 +16,10 @@ use Filament\Forms\Components\Card;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Set;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\Filter;
 
-class ComponentsResource extends Resource
+class ComponentResource extends Resource
 {
-    protected static ?string $model = Components::class;
+    protected static ?string $model = Component::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-server-stack';
     protected static ?string $navigationGroup = 'Component Management';
@@ -33,7 +32,6 @@ class ComponentsResource extends Resource
             ->schema([
                 //
                 Card::make()->schema([TextInput::make('comp_name')->unique(),
-
                 ])
             ]);
     }
@@ -45,7 +43,6 @@ class ComponentsResource extends Resource
                 //
                 TextColumn::make('id')->sortable(),
                 TextColumn::make('comp_name')->limit(50)->sortable()->searchable(),
-                //
             ])
             ->filters([
                 //
@@ -62,20 +59,20 @@ class ComponentsResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ]);
     }
-
+    
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-
+    
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListComponents::route('/'),
-            'create' => Pages\CreateComponents::route('/create'),
-            'edit' => Pages\EditComponents::route('/{record}/edit'),
+            'create' => Pages\CreateComponent::route('/create'),
+            'edit' => Pages\EditComponent::route('/{record}/edit'),
         ];
-    }
+    }    
 }

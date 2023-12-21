@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Formats extends Model
+class Format extends Model
 {
     use HasFactory;
-    protected $table = 'formats';
+    protected $table = 'format';
 
     protected $fillable = ['type'];
     // Define the relationship with products
-    public function products()
-    {
-        return $this->belongsToMany(Product::class, 'products_formats')->withTimestamps();
-    }
+    // public function products()
+    // {
+    //     return $this->belongsToMany(Product::class,'product_component')->withTimestamps();
+    // }
 }

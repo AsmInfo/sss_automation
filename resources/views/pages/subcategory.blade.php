@@ -16,7 +16,6 @@
 
  
      
-<div class="row">
 {{-- <div class="col-">
  <div class="row" data-aos="fade-up" data-aos-delay="100">
         <div class="col-lg-8 d-flex justify-content-center align-items-center">
@@ -29,35 +28,36 @@
         </div>
       </div>
 </div> --}}
-<div class="col-12">
-      <div class="row gy-4 " data-aos="fade-up" data-aos-delay="200">
+{{-- <div class="col-12"> --}}
+  
+      <div class="row gy-4 portfolio-container" data-aos="fade-up" data-aos-delay="200">
         
         
         @foreach($subcategory as $subcategories)
-        <div class="col-lg-4 col-md-6 ">
-          <div class="">
+        <div class="col-lg-4 col-md-4 portfolio-item filter-app">
+          <div class="portfolio-wrap">
             @if (isset($productArray[$subcategories->id]))
-            
-            {{-- Loop through products for the current subcategory --}}
-            @foreach ($productArray[$subcategories->id] as $product)
-            
-            <a href="{{ route('detail', ['slug' => $product->slug]) }}">
-            @if ($product->hasMedia('products'))
-              <img src="{{ $product->getFirstMedia('products')->getUrl() }}" alt="Product Image">
-              <h4>{{$product->subcategory?->name}}</h4>
+                @php
+                    $latestProduct = $productArray[$subcategories->id]->first();
+                @endphp
+            @if ($latestProduct)
+            <a class="d-flex" href="{{ route('detail', ['slug' => $latestProduct->slug]) }}">
+              @if ($latestProduct->hasMedia('product'))
+              <img src="{{ $latestProduct->getFirstMedia('product')->getUrl() }}" class="img-fluid" alt="Product Image">
+              <h4>{{$latestProduct->subcategory?->name}}</h4>
               @else
               <p>No image available</p>
-            @endif
-          </a>
-        @endforeach
-        @endif
-            
+              @endif
+            </a>
+            @endif 
+         @endif            
           </div>
+        </div>
          @endforeach  
         </div>
        
     
-    </div></div>
+    </div>
 
     </div>
 

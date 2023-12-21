@@ -25,8 +25,6 @@ return new class extends Migration
     {
         Schema::table('product', function (Blueprint $table) {
             //
-            $table->string('offer_price')->after('price')->nullable();
-            $table->string('product_attachments')->after('price')->nullable();
         });
     }
 };

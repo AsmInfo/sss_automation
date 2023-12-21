@@ -7,7 +7,7 @@ use App\Models\Category;
 use App\Models\Subcategory;
 use App\Models\Product;
 use App\Models\ProductComponent;
-use  App\Models\Components;
+use  App\Models\Component;
 class AutomationController extends Controller
 {
     //
@@ -37,8 +37,12 @@ class AutomationController extends Controller
 
     public function product_detail($slug){
         
-        $product= Product::with('category','subcategory','components')->where('slug', $slug)->first();
-        return view('pages.detail',compact('product'));
+        $product= Product::with('category','subcategory','component.format','ProductComponent')->where('slug', $slug)->first();
+
+        $component = $product->component;
+    
+                // dd($value);
+        return view('pages.detail',compact('product','component'));
     }
 
     public function sub_product(Request $request)

@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('products_formats', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('products_id');
+            $table->foreignId('product_id');
             $table->foreignId('formats_id');
             $table->timestamps();
         });

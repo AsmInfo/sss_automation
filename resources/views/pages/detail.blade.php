@@ -25,10 +25,12 @@
             <div class="portfolio-details-slider swiper">
               <div class="swiper-wrapper align-items-center">
                 
-                @foreach ($product->getMedia('products') as $image)
-                <div class="swiper-slide">
+                @foreach ($product->getMedia('product') as $image)
+                <div class="swiper-slide media" >
                   @if($image)
-                  <img src="{{$image->getUrl()}}" alt="">
+                  <figure class="zoom" onmousemove="zoom(event)" style="background-image: url('{{$image->getUrl()}}');)">
+                  <img class="zoom" onmousemove="zoom(event)" src="{{$image->getUrl()}}" alt="">
+                </figure>
                   @endif
                 </div>
                 @endforeach
@@ -37,29 +39,26 @@
             </div>
           </div>
 
-          <div class="col-lg-4">
-            <div class="portfolio-info">
-              <h3>Product information</h3>
+          <div class="col-lg-4 mt-1">
+            <div class="portfolio-info ">
+              
               <ul>
+                <li><strong>Price</strong>: {{$product->price}} </li>
+
+                <button type="button" class="btn btn-success">Add to Cart</button>
+                <h3>Product information</h3> 
                 <li><strong>Category</strong>: {{$product->category->name}}</li>
                 <li><strong>Product Name</strong>: {{$product->title}}</li>
-                <li><strong>Price</strong>: {{$product->price}}</li>
+                
                 {{-- <li><strong>Project URL</strong>: <a href="#">www.example.com</a></li> --}}
               </ul>
             </div>
             <div class="portfolio-description">
               <h2>Description</h2>
-              
               <p>
                 {!! $product->description !!}
-                
               </p>
-              <div>
-                <h1>Components</h1>
-              @foreach ($product->components as $component)
-              {{$component->product->id}}
-              @endforeach
-              </div>
+              
             </div>
           </div>
         </div>
@@ -68,18 +67,20 @@
         <table class="table table-bordered">
             <thead>
               <tr>
-
                 <th scope="col">Components</th>
                 <th scope="col">Formats</th>
               </tr>
             </thead> 
             <tbody>
-                @foreach ($product->components as $component)
-                {{$component}}
+                @foreach ($product->component  as $components)
+                {{-- {{$component}} --}}
               <tr>
-                <th scope="row">{{ $index + 1 }}</th>
-                <td>{{$component->comp_name}}</td>
                 
+                <td>{{$components->comp_name}}</td>
+                @foreach($components->format as $format)
+                <td>{{$format->type}}</td>
+                @break
+                @endforeach
               </tr>
               @endforeach
             </tbody>

@@ -7,19 +7,19 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Models\Components;
+use App\Models\Component;
 
 class Product extends Model implements HasMedia
 {
     use HasFactory,InteractsWithMedia;
 
-    protected $table = 'products';
+    protected $table = 'product';
 
     protected $fillable = ['category_id','subcategory_id','title', 'slug','description','price','offer_price','product_attachments','is_published'];
    
-    public function components()
+    public function component()
     {
-         return $this->belongsToMany(Components::class, 'products_components', 'product_id', 'components_id', 'formats_id')->withTimestamps();
+         return $this->belongsToMany(Component::class,'product_component')->withTimestamps()->withPivot('format_id');
     }
 
     public function ProductComponent(): HasMany
@@ -27,9 +27,9 @@ class Product extends Model implements HasMedia
         return $this->hasMany(ProductComponent::class);
 
     }
-    // public function formats()
+    // public function format()
     // {
-    //     return $this->belongsToMany(Formats::class, 'products_formats')->withTimestamps();
+    //     return $this->belongsToMany(Format::class, 'product_format')->withTimestamps();
     // }
     protected $casts = [
         'is_published' => 'boolean',
