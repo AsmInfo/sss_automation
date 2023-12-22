@@ -91,6 +91,32 @@
           </table>
         </div>
       </div>
+      <div class="container">
+        {{-- <h1>Use Bootstrap 3's carousel to show multiple items per slide.</h1> --}}
+        <div class="row">
+          <div class="col-md-12">
+            <div class="carousel slide multi-item-carousel" id="theCarousel">
+              <div class="carousel-inner d-flex flex-row carousel slide">
+                @foreach($relatedProducts as $relate)
+                {{$relate->subcategory->name}}
+                {{$relate->title}}
+                <div class="item active ">
+                  <div class="col-md-3"><a href="#1" >
+                    @foreach($relate->getMedia('product') as $image)
+                    <img src="{{$image->getUrl()}}" class="img-responsive" style="width:100%;height:100%;">
+                    @break
+                    @endforeach
+                  </a></div>
+                </div>
+                @endforeach
+               
+              </div>
+              <a class="left carousel-control" href="#theCarousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
+              <a class="right carousel-control" href="#theCarousel" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
     </section><!-- End Portfolio Details Section -->
 
   </main><!-- End #main -->

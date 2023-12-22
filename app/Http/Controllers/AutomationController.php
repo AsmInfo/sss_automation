@@ -47,12 +47,17 @@ class AutomationController extends Controller
     public function product_detail($slug){
         
         $product= Product::with('category','subcategory','component.format','ProductComponent')->where('is_published', true)
-        ->where('slug', $slug)->firstorfail();
-        
+        ->where('slug', $slug)->firstOrFail();
         $component = $product->component;
-    
-                // dd($value);
-        return view('pages.detail',compact('product','component'));
+        $relatedProducts = Product::with('subcategory')->where('subcategory_id',$product->subcategory->id)->where('id', '!=', $product->id)->get();
+        // dd($relatedProducts);
+        if ($relatedProducts->isEmpty()) {
+            $relatedProducts = Product::with('subcategory')->where('id', '!=', $product->id)->get();
+        }
+        
+        
+                
+        return view('pages.detail',compact('product','component','relatedProducts'));
     }
 
     public function sub_product(Request $request)
