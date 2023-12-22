@@ -17,6 +17,8 @@ use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\BooleanColumn;
+use Filament\Tables\Filters\Filter;
+
 
 
 class DiscountResource extends Resource
@@ -34,7 +36,7 @@ class DiscountResource extends Resource
         return $form
             ->schema([
                 //
-                Card::make()->schema([TextInput::make('discount_name')->label('Discount Name')->unique(),
+                Card::make()->schema([TextInput::make('discount_name')->label('Discount Coupon')->unique(),
                     TextInput::make('discount_value')->label('Value')->required(),
                     Toggle::make('is_active')->required(),
                 ])
@@ -47,12 +49,20 @@ class DiscountResource extends Resource
             ->columns([
                 //
                 TextColumn::make('id')->sortable(),
-                TextColumn::make('discount_name')->limit(50)->sortable()->searchable(),
+                TextColumn::make('discount_name')->label('Discount Coupon')->limit(50)->sortable()->searchable(),
                 TextColumn::make('discount_value')->limit(50),
                 BooleanColumn::make('is_active'),
             ])
             ->filters([
                 //
+                Filter::make('is_active')
+                    ->query(fn (Builder $query): Builder => $query->where('is_active', true))
+                    ->label('is_active')
+                    ->toggle(),
+                Filter::make('is_active')
+                    ->query(fn (Builder $query): Builder => $query->where('is_active', false))
+                    ->label('is_active')
+                    ->toggle(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

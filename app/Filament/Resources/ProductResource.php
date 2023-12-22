@@ -30,6 +30,8 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\BooleanColumn;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Filament\Tables\Filters\Filter;
+
 
 class ProductResource extends Resource
 {
@@ -113,14 +115,21 @@ class ProductResource extends Resource
                 TextColumn::make('subcategory.name'),
                 TextColumn::make('title')->limit(50)->sortable()->searchable(),
                 SpatieMediaLibraryImageColumn::make('thumbnail')
-            ->collection('product'),
-            TextColumn::make('price')->limit(50)->sortable()->searchable(),
-            TextColumn::make('offer_price')->limit(50)->sortable()->searchable(),
-                
-                BooleanColumn::make('is_active'),
+                ->collection('product')->limit(1)->width(150)->height(50),
+                TextColumn::make('price')->limit(50)->sortable()->searchable(),
+                TextColumn::make('offer_price')->limit(50)->sortable()->searchable(),
+                BooleanColumn::make('is_published'),
             ])
             ->filters([
                 //
+                Filter::make('Published')
+                ->query(fn (Builder $query): Builder => $query->where('is_published', true))
+                ->label('Published')
+                ->toggle(),
+            Filter::make('Unpublished')
+                ->query(fn (Builder $query): Builder => $query->where('is_published', false))
+                ->label('Unpublished')
+                ->toggle(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

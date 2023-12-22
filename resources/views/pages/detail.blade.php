@@ -20,8 +20,9 @@
       <div class="container">
 
         <div class="row gy-4">
-
+          
           <div class="col-lg-8">
+            
             <div class="portfolio-details-slider swiper">
               <div class="swiper-wrapper align-items-center">
                 
