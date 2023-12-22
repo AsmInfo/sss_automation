@@ -22,3 +22,4 @@ Route::get('/', function () {
 Route::get('/product/{slug}', [AutomationController::class, 'product_detail'])->name('detail');
 Route::get('/subcategory/{slug}', [AutomationController::class, 'subcategory'])->name('subcategory');
 Route::post('/subcategory', [AutomationController::class, 'sub_product'])->name('sub_product');
+Route::get('/productlist/{name}',[AutomationController::class,'products'])->name('productlist');

@@ -28,10 +28,13 @@
                 @foreach ($product->getMedia('product') as $image)
                 <div class="swiper-slide media" >
                   @if($image)
-                  <figure class="zoom" onmousemove="zoom(event)" style="background-image: url('{{$image->getUrl()}}');)">
-                  <img class="zoom" onmousemove="zoom(event)" src="{{$image->getUrl()}}" alt="">
-                </figure>
-                  @endif
+                  {{-- <figure class="zoom" onmousemove="zoom(event)" style="background-image: url('{{$image->getUrl()}}');)"> --}}
+                  
+                {{-- </figure> --}}
+                <div class="zoom-box">
+                <img id="myimage"   src="{{$image->getUrl()}}" alt="" style="background-image: url('{{$image->getUrl()}}');" >
+                </div>  
+                @endif
                 </div>
                 @endforeach
               </div>
@@ -45,7 +48,7 @@
               <ul>
                 <li><strong>Price</strong>: {{$product->price}} </li>
 
-                <button type="button" class="btn btn-success">Add to Cart</button>
+                <button type="button" class="btn btn-primary">Add to Cart</button>
                 <h3>Product information</h3> 
                 <li><strong>Category</strong>: {{$product->category->name}}</li>
                 <li><strong>Product Name</strong>: {{$product->title}}</li>
@@ -90,5 +93,7 @@
     </section><!-- End Portfolio Details Section -->
 
   </main><!-- End #main -->
+  
+  <div id="myresult" class="img-zoom-result hide"></div>
 
 @endsection

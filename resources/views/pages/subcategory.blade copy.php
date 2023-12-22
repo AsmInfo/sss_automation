@@ -36,20 +36,21 @@
         @foreach($subcategory as $subcategories)
         <div class="col-lg-4 col-md-4 portfolio-item filter-app">
           <div class="portfolio-wrap">
-            
-            
-            <a class="d-flex" href="{{ route('productlist', ['name' => $subcategories->name]) }}">
-              @if ($subcategories->hasMedia('subcategories'))
-              <img src="{{ $subcategories->getFirstMedia('subcategories')->getUrl() }}" class="img-fluid" alt="Product Image">
-              
+            @if (isset($productArray[$subcategories->id]))
+                @php
+                    $latestProduct = $productArray[$subcategories->id]->first();
+                @endphp
+            @if ($latestProduct)
+            <a class="d-flex" href="{{ route('detail', ['slug' => $latestProduct->slug]) }}">
+              @if ($latestProduct->hasMedia('product'))
+              <img src="{{ $latestProduct->getFirstMedia('product')->getUrl() }}" class="img-fluid" alt="Product Image">
+              <h4>{{$latestProduct->subcategory?->name}}</h4>
               @else
-
               <p>No image available</p>
               @endif
-              <h4>{{$subcategories?->name}}</h4>
             </a>
-            
-              
+            @endif 
+         @endif            
           </div>
         </div>
          @endforeach  

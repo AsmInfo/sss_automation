@@ -2435,12 +2435,12 @@ section {
   font-size: 13px;
   color: #012970;
 }
-.media
+/* .media
 figure.zoom {
 background-position: 50% 50%;
 position: relative;
 /* margin: 150px auto; */
-border: 5px solid white;
+/* border: 5px solid white;
 box-shadow: -1px 5px 15px black;
 height: 80%;
 width: 100%;
@@ -2454,4 +2454,56 @@ figure.zoom img {
 transition: opacity 0.5s;
 display: block;
 width: 100%;
+} */ 
+/* * {box-sizing: border-box;}
+
+.img-zoom-container {
+  position: relative;
+}
+
+.img-zoom-lens {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  /*set the size of the lens:*/
+  /* width: 40px;
+  height: 40px;
+}
+.img-zoom-result{
+  display:none;
+}
+.imagezoom:hover + .img-zoom-result {
+  left:calc(100vw - 50%);
+  top:calc(100vh - 70%);
+  position: absolute;
+  z-index: 99;
+  border: 1px solid #d4d4d4;
+  /*set the size of the result div:*/
+  /* width: 400px;
+  height: 400px;
+  display: block; */
+/* }  */
+
+.zoom-box{
+  position: relative;
+}
+.zoom-box img{
+  vertical-align: bottom;
+}
+.zoom-box .zoom-selector{
+  position: absolute;
+  /* background-image: url(""); */
+  background-repeat: repeat;
+  display: none;
+  cursor: crosshair;
+}
+.zoom-box .viewer-box{
+  position: absolute;
+  border: 1px solid rgb(239,237,240);
+  display: none;
+  overflow: hidden;
+}
+.zoom-box .viewer-box>img{
+  position: absolute;
+  left: 0;
+  top: 0;
 }

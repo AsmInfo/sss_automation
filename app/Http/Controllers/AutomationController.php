@@ -17,28 +17,38 @@ class AutomationController extends Controller
         if ($category) {
             $subcategory = Subcategory::where('category_id', $category->id)->get();
         
-            foreach ($subcategory as $subcategories) {
+            // foreach ($subcategory as $subcategories) {
                
-                // Get the latest product for the current subcategory
-                $product = Product::with('category', 'subcategory')
-                    ->where('subcategory_id', $subcategories->id)
+            //     // Get the latest product for the current subcategory
+            //     $product = Product::with('category', 'subcategory')
+            //         ->where('subcategory_id', $subcategories->id)
                     
-                    ->get();
-                    if ($product) {
-                        // Add the product to the array
-                        $productArray[] = $product;
-                    }
-            }
+            //         ->get();
+            //         if ($product) {
+            //             // Add the product to the array
+            //             $productArray[] = $product;
+            //         }
+            // }
             // dd($productArray[]);
         }
         
-        return view('pages.subcategory', compact('subcategory','productArray'));
+        return view('pages.subcategory', compact('subcategory','subcategory'));
+    }
+
+    public function products($name){
+        $productlist= Product::with('category','subcategory','component.format','ProductComponent')
+        ->whereHas('subcategory', function ($query) use ($name) {
+            $query->where('name', $name);
+        })->where('is_published', true)->latest()->get();
+        
+        return view('pages.productlist',compact('productlist'));
     }
 
     public function product_detail($slug){
         
-        $product= Product::with('category','subcategory','component.format','ProductComponent')->where('slug', $slug)->first();
-
+        $product= Product::with('category','subcategory','component.format','ProductComponent')->where('is_published', true)
+        ->where('slug', $slug)->firstorfail();
+        
         $component = $product->component;
     
                 // dd($value);

@@ -58,11 +58,23 @@ class ProductResource extends Resource
                     SpatieMediaLibraryFileUpload::make('thumbnail')
                         ->collection('product')
                         ->multiple()
+                        ->preserveFilenames()
+                        ->imageEditor()
+                        ->imageResizeMode('cover')
                         ->maxSize(1024)
+                        ->imageResizeTargetWidth('600')
+                        ->imageResizeTargetHeight('600')
+                        ->resize(50)
                         ->required(),
                      FileUpload::make('product_attachments')
                         ->multiple()
+                        ->preserveFilenames()
+                        ->imageEditor()
+                        ->imageResizeMode('cover')
                         ->maxSize(1024)
+                        ->imageResizeTargetWidth('600')
+                        ->imageResizeTargetHeight('600')
+                        ->resize(50)
                         ->storeFileNamesIn('product_attachments'),
                     RichEditor::make('description')->maxLength(17000)->required(),
                     TextInput::make('price')->label('Price')->numeric()->numeric()

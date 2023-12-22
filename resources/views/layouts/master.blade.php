@@ -26,7 +26,7 @@
 
   <!-- Template Main CSS File -->
   <link href="/assets/css/style.css" rel="stylesheet">
-
+  <script src="/assets/js/zoom.js"></script>
   <!-- =======================================================
   * Template Name: FlexStart
   * Updated: Jul 27 2023 with Bootstrap v5.3.1
@@ -81,7 +81,23 @@
 <script src="/assets/vendor/swiper/swiper-bundle.min.js"></script>
 <script src="/assets/vendor/php-email-form/validate.js"></script>
 {{-- <script src="/assets/js/ajaxproduct.js"></script> --}}
-<script src="/assets/js/zoom.js"></script>
+{{-- <script>
+  // Initiate zoom effect:
+  imageZoom("myimage", "myresult");
+  </script> --}}
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+  <script src="js/jquery.jqZoom.js"></script>
+  <script>
+    $(function(){
+        $("img").jqZoom({
+            selectorWidth: 30,
+            selectorHeight: 30,
+            viewerWidth: 400,
+            viewerHeight: 300
+        });
+
+    })
+</script>
 
 <!-- Template Main JS File -->
 <script src="/assets/js/main.js"></script>
