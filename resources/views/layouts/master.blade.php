@@ -23,7 +23,13 @@
   <link href="/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  
+  
   <!-- Template Main CSS File -->
   <link href="/assets/css/style.css" rel="stylesheet">
   <script src="/assets/js/zoom.js"></script>
@@ -101,5 +107,73 @@
 <script src="/assets/js/carousel.js"></script>
 <!-- Template Main JS File -->
 <script src="/assets/js/main.js"></script>
+<script>
+  // update cart
+  $(".update-cart").change(function (e) {
+        e.preventDefault();
+  
+        var ele = $(this);
+        
+        $.ajax({
+            url:  '{{ route('update-cart') }}' ,
+            method: "patch",
+            data: {
+                _token: '{{ csrf_token() }}', 
+                id: ele.parents("tr").attr("data-id"), 
+                quantity: ele.parents("tr").find(".quantity").val()
+            },
+            success: function (response) {
+              console.log(response);
+               window.location.reload();
+            }
+            
+            
+            
+        });
+    });
+  // remove from cart
+    $(".remove-from-cart").click(function (e) {
+        e.preventDefault();
+        
+        var ele = $(this);
+        
+        if(confirm("Are you sure want to remove?")) {
+            $.ajax({
+                url:  '{{ route('remove-from-cart') }}',
+                method: "DELETE",
+                data: {
+                    _token: '{{ csrf_token() }}', 
+                    id: ele.parents("tr").attr("data-id")
+                },
+                success: function (response) {
+                    window.location.reload();
+                }
+            });
+        }
+    });
+// disable cart button @first click
+    // $('.add-to-cart').on('click', function () {
+    //         // Disable the button
+    //         $(this).prop('disabled', true);
+
+    //         // Perform the AJAX request or page redirect
+    //         // ...
+
+    //         // Optionally, you can re-enable the button after a certain time
+    //         setTimeout(function () {
+    //             $('.add-to-cart').prop('disabled', false);
+    //         }, 5000); // 5000 milliseconds (5 seconds) in this example
+    //     });
+</script>
+<script>
+  var clicked = false;
+ $('#add-to-cart').on("click", function (e) {
+    if(clicked===false){
+       clicked=true;
+    }else{
+       e.preventDefault();
+    }
+  });
+</script>
 </body>
 </html>

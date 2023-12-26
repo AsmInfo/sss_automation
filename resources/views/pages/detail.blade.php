@@ -48,8 +48,8 @@
               
               <ul>
                 <li><strong>Price</strong>: {{$product->price}} </li>
-
-                <button type="button" class="btn btn-primary">Add to Cart</button>
+                
+                <a id="add-to-cart" href="{{ route('add-to-cart', $product->id) }}" class=" btn-primary ">Add to Cart</a>
                 <h3>Product information</h3> 
                 <li><strong>Category</strong>: {{$product->category->name}}</li>
                 <li><strong>Product Name</strong>: {{$product->title}}</li>
@@ -57,7 +57,7 @@
                 {{-- <li><strong>Project URL</strong>: <a href="#">www.example.com</a></li> --}}
               </ul>
             </div>
-            <div class="portfolio-description">
+           <div class="portfolio-description">
               <h2>Description</h2>
               <p>
                 {!! $product->description !!}
@@ -78,7 +78,7 @@
             <tbody>
                 @foreach ($product->component  as $components)
                 {{-- {{$component}} --}}
-              <tr>
+           <tr>
                 
                 <td>{{$components->comp_name}}</td>
                 @foreach($components->format as $format)
@@ -88,7 +88,6 @@
               </tr>
               @endforeach
             </tbody>
-          </table>
         </div>
       </div>
       <div class="container">

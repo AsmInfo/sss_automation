@@ -60,6 +60,70 @@ class AutomationController extends Controller
         return view('pages.detail',compact('product','component','relatedProducts'));
     }
 
+    public function cart()
+    {
+        return view('pages.cart');
+    }
+
+    public function addToCart($id)
+    {
+        $product = Product::findOrFail($id);
+        
+        $media = $product->getMedia('product');
+        $imageUrl = $media->isNotEmpty() ? $media->first()->getUrl() : null;
+        
+        $cart = session()->get('cart', []);
+  
+        if(isset($cart[$id])) {
+            $cart[$id]['quantity']++;
+        } else {
+            $cart[$id] = [
+                "name" => $product->title,
+                "quantity" => 1,
+                "price" => $product->price,
+                "image" => $imageUrl
+            ];
+        }
+          
+        session()->put('cart', $cart);
+        return redirect()->back()->with('success', 'Product added to cart successfully!');
+    }
+
+    public function update(Request $request)
+    {
+        try { 
+        if($request->id && $request->quantity){
+            
+            $cart = session()->get('cart');
+
+            $cart[$request->id]["quantity"] = $request->quantity;
+
+            session()->put('cart', $cart);
+
+            session()->flash('success', 'Cart updated successfully');
+        }
+        
+        return response()->json(['success' => true]);
+    } catch (\Exception $e) {
+        // Log the error
+        \Log::error('Error updating cart: ' . $e->getMessage());
+
+        return response()->json(['error' => 'Internal Server Error'], 500);
+    }
+
+    }
+    public function remove(Request $request)
+    {
+        if($request->id) {
+            $cart = session()->get('cart');
+            if(isset($cart[$request->id])) {
+                unset($cart[$request->id]);
+                session()->put('cart', $cart);
+            }
+            session()->flash('success', 'Product removed successfully');
+        }
+    }
+  
     public function sub_product(Request $request)
     {
         try{
@@ -80,4 +144,5 @@ class AutomationController extends Controller
         ], 500);
     }
     }
+
 }

@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use App\Models\UserProfile;
 
 class User extends Authenticatable implements FilamentUser
 {
@@ -49,5 +50,10 @@ class User extends Authenticatable implements FilamentUser
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->hasRole(['Admin','Developer','Editor']);
+    }
+
+    public function profile()
+    {
+        return $this->belongsTo(UserProfile::class);
     }
 }
